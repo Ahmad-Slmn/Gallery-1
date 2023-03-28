@@ -20,38 +20,21 @@ images.forEach(image => {
 
         const imageContainer = document.createElement('div');
         imageContainer.classList.add('image-container');
+        overlay.appendChild(imageContainer);
         imageContainer.appendChild(img);
         imageContainer.appendChild(downloadLink);
-        overlay.appendChild(imageContainer);
-
-        // Add drag and drop functionality
-        img.setAttribute('draggable', true);
-        img.addEventListener('dragstart', () => {
-            img.classList.add('dragging');
-        });
-        img.addEventListener('dragend', () => {
-            img.classList.remove('dragging');
-        });
-
-        overlay.addEventListener('dragover', e => {
-            e.preventDefault();
-            imageContainer.classList.add('dragover');
-        });
-        overlay.addEventListener('dragleave', () => {
-            imageContainer.classList.remove('dragover');
-        });
-        overlay.addEventListener('drop', e => {
-            e.preventDefault();
-            const droppedImg = e.dataTransfer.files[0];
-            const reader = new FileReader();
-            reader.onload = () => {
-                img.src = reader.result;
-            };
-            reader.readAsDataURL(droppedImg);
-        });
 
         closeImg.addEventListener('click', () => {
             overlay.remove();
+        });
+
+        // Add Hammer.js for pinch and rotate gestures
+        const hammertime = new Hammer(img);
+        hammertime.get('pinch').set({
+            enable: true
+        });
+        hammertime.get('rotate').set({
+            enable: true
         });
     });
 });
