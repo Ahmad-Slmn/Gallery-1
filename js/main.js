@@ -24,17 +24,17 @@ images.forEach(image => {
         imageContainer.appendChild(img);
         imageContainer.appendChild(downloadLink);
 
-        closeImg.addEventListener('click', () => {
-            overlay.remove();
-        });
+        setTimeout(() => {
+            overlay.classList.add('active');
+            imageContainer.classList.add('active');
+        }, 0);
 
-        // Add Hammer.js for pinch and rotate gestures
-        const hammertime = new Hammer(img);
-        hammertime.get('pinch').set({
-            enable: true
-        });
-        hammertime.get('rotate').set({
-            enable: true
+        closeImg.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            imageContainer.classList.remove('active');
+            setTimeout(() => {
+                overlay.remove();
+            }, 400);
         });
     });
 });
